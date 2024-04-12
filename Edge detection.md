@@ -63,7 +63,9 @@ $$ \nabla f(x,y) = \begin{pmatrix} f(x+1,y) - f(x,y) \\ f(x,y+1) - f(x,y) \end{p
 and second order derivative, Laplacian
 $$ \Delta f = \nabla \cdot \nabla f = \begin{pmatrix} f(x+1,y) - 2f(x,y) + f(x-1,y) \\ f(x,y+1) - 2f(x,y) + f(x,y-1) \end{pmatrix}$$
 this is the illustration of application of first and second order derivatives with forward difference
+
 ![](pics/bright_der.png)
+
 and implementation
 ```python
 import numpy as np
@@ -137,7 +139,9 @@ $$ \lim_{h \to 0} \frac{f(x) - f(x-h)}{h}$$
 ###### central difference
 $$ \lim_{h \to 0} \frac{f(x+h) - f(x-h)}{2h} $$
 from the image below we can see that central difference yields more accurate rate of change in intensity of pixels from initial picture. 
+
 ![](pics/diff_types.png)
+
 with relative errors
 ```
 Relative error between forward and backward 6.167518521609531
@@ -242,7 +246,7 @@ $$ h_x = \begin{pmatrix} +1 & 0 & -1 \\ +1 & 0 & -1 \\ +1 & 0 & -1 \end{pmatrix}
  $$ M = \sqrt{(h_x \ \circledast f)^2 + (h_y \circledast f)^2} $$
  and to get even more clear image we can use Thresholding to get following result
  
-![[./pics/edging.png]]
+![](pics/edging.png)
 #### Potential of higher order derivatives for extracting other features
 
 we can even get additional information by calculating angle of the edge.
