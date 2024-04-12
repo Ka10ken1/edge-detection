@@ -63,7 +63,7 @@ $$ \nabla f(x,y) = \begin{pmatrix} f(x+1,y) - f(x,y) \\ f(x,y+1) - f(x,y) \end{p
 and second order derivative, Laplacian
 $$ \Delta f = \nabla \cdot \nabla f = \begin{pmatrix} f(x+1,y) - 2f(x,y) + f(x-1,y) \\ f(x,y+1) - 2f(x,y) + f(x,y-1) \end{pmatrix}$$
 this is the illustration of application of first and second order derivatives with forward difference
-![[./pics/bright_der.png | 750]]
+![](pics/bright_der.png)
 and implementation
 ```python
 import numpy as np
