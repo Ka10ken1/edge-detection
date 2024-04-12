@@ -61,7 +61,7 @@ $$\frac{\partial f(x,y)}{\partial x} \ \ \ and \ \ \ \frac{\partial f(x,y)}{\par
 and gradient with finite differences
 
 
-$$ \nabla f(x,y) = \begin{pmatrix} f(x+1,y) - f(x,y) \\ f(x,y+1) - f(x,y) \end{pmatrix} $$
+$$ \nabla f(x,y) = \begin{pmatrix} f(x+1,y) - f(x,y) \\ f(x,y+1) - f(x,y) \end{pmatrix}  $$
 
 
 and second order derivative, Laplacian
