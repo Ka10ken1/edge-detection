@@ -3,7 +3,7 @@
 
 Edges are characterized by a rapid variation in the intensity of the pixels. Fig.1 represents the brightness profile along a horizontal blue line in image, which clearly shows a sudden decrease in the brightness of the pixels.
 
-![[pics/edge_intensity.png]]
+![](pics/edge_intensity.png)
 
 
 with following implementation
