@@ -59,9 +59,13 @@ an edge can be detected by analyzing the first derivative of the intensity profi
 ###### since image depends on two dimensions, we use partial derivatives
 $$\frac{\partial f(x,y)}{\partial x} \ \ \ and \ \ \ \frac{\partial f(x,y)}{\partial y} $$
 and gradient with finite differences
+
 $$ \nabla f(x,y) = \begin{pmatrix} f(x+1,y) - f(x,y) \\ f(x,y+1) - f(x,y) \end{pmatrix} $$
+
 and second order derivative, Laplacian
+
 $$ \Delta f = \nabla \cdot \nabla f = \begin{pmatrix} f(x+1,y) - 2f(x,y) + f(x-1,y) \\ f(x,y+1) - 2f(x,y) + f(x,y-1) \end{pmatrix}$$
+
 this is the illustration of application of first and second order derivatives with forward difference
 
 ![](pics/bright_der.png)
@@ -233,17 +237,26 @@ plt.show()
 
 to investigate higher order derivatives we can use  **Prewitt** operators and compute convolution. 
 for first order derivative it has following form
+
 $$ f(x+1,y) - f(x,y) = \sum_m \sum_n h_x(m,n)f(x-m,y-n)$$
+
 with kernel
+
 $$h_x(0,0) = -1 , \ h_x(-1,0) = +1, \ h_x(m,n) = 0 \ elsewhere$$
+
 and similar idea is applied to higher order derivatives with kernels
 
 
 $$ h_x = \begin{pmatrix} +1 & 0 & -1 \\ +1 & 0 & -1 \\ +1 & 0 & -1 \end{pmatrix} \ \ \ h_y = \begin{pmatrix} +1 & +1 & +1 \\ 0 & 0 & 0 \\ -1 & -1 & -1 \end{pmatrix}$$
+
 - first calculate vertical and horizontal prewitt operators by convolution
+
  $$ h_x \ \circledast f \ \ and \ \ h_y \circledast f $$
+ 
  and then calculate magnitude M with is "fusion" of both operators to get the final result
+ 
  $$ M = \sqrt{(h_x \ \circledast f)^2 + (h_y \circledast f)^2} $$
+ 
  and to get even more clear image we can use Thresholding to get following result
  
 ![](pics/edging.png)
@@ -251,7 +264,9 @@ $$ h_x = \begin{pmatrix} +1 & 0 & -1 \\ +1 & 0 & -1 \\ +1 & 0 & -1 \end{pmatrix}
 
 we can even get additional information by calculating angle of the edge.
 by calculating following expression 
+
 $$ A = \tan^{-1} \left( \frac{h_y \circledast f}{h_x \circledast f} \right)$$
+
 the color of the edges corresponds to the angle. For example, an angle of 0 is re[]()d, and an angle of $\frac{\pi}{2}$ is blue.
 
 ![](pics/angle.png)
