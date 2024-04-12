@@ -60,11 +60,17 @@ an edge can be detected by analyzing the first derivative of the intensity profi
 $$\frac{\partial f(x,y)}{\partial x} \ \ \ and \ \ \ \frac{\partial f(x,y)}{\partial y} $$
 and gradient with finite differences
 
+
 $$ \nabla f(x,y) = \begin{pmatrix} f(x+1,y) - f(x,y) \\ f(x,y+1) - f(x,y) \end{pmatrix} $$
+
 
 and second order derivative, Laplacian
 
+
+
 $$ \Delta f = \nabla \cdot \nabla f = \begin{pmatrix} f(x+1,y) - 2f(x,y) + f(x-1,y) \\ f(x,y+1) - 2f(x,y) + f(x,y-1) \end{pmatrix}$$
+
+
 
 this is the illustration of application of first and second order derivatives with forward difference
 
