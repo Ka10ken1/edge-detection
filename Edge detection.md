@@ -137,7 +137,7 @@ $$ \lim_{h \to 0} \frac{f(x) - f(x-h)}{h}$$
 ###### central difference
 $$ \lim_{h \to 0} \frac{f(x+h) - f(x-h)}{2h} $$
 from the image below we can see that central difference yields more accurate rate of change in intensity of pixels from initial picture. 
-![[./pics/diff_types.png]]
+![](pics/diff_types.png)
 with relative errors
 ```
 Relative error between forward and backward 6.167518521609531
