@@ -350,3 +350,5 @@ plt.show()
 #### Provide two illustrations of how derivatives are applied in real-world scenarios.
 
 #### Present a visual representation for at least one of the examples
+
+this must be added
