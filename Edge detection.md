@@ -68,7 +68,7 @@ and second order derivative, Laplacian
 
 
 
-$$ \Delta f = \nabla \cdot \nabla f = \begin{pmatrix} f(x+1,y) - 2f(x,y) + f(x-1,y) \\ f(x,y+1) - 2f(x,y) + f(x,y-1) \end{pmatrix}$$
+$$ \Delta f = \nabla \cdot \nabla f = \begin{pmatrix} f(x+1,y) - 2f(x,y) + f(x-1,y) \\ f(x,y+1) - 2f(x,y) + f(x,y-1) \end{pmatrix} $$
 
 
 
@@ -76,7 +76,7 @@ this is the illustration of application of first and second order derivatives wi
 
 ![](pics/bright_der.png)
 
-and implementation
+with  implementation
 ```python
 import numpy as np
 import skimage.io as io
@@ -345,10 +345,4 @@ plt.title("Prewitt Operator with magnitude M")
 plt.show()
 ```
 
-### Problem 2.3
-
-#### Provide two illustrations of how derivatives are applied in real-world scenarios.
-
-#### Present a visual representation for at least one of the examples
-
-this must be added
+[[Problem 2.2]]
