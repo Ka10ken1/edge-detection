@@ -250,7 +250,7 @@ by calculating following expression
 $$ A = \tan^{-1} \left( \frac{h_y \circledast f}{h_x \circledast f} \right)$$
 the color of the edges corresponds to the angle. For example, an angle of 0 is re[]()d, and an angle of $\frac{\pi}{2}$ is blue.
 
-![[./pics/angle.png]]
+![](pics/angle.png)
 
 and following implementation
 ```python
