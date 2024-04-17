@@ -1,4 +1,199 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cp1]]></title><description><![CDATA[Obsidian digital garden]]></description><link>http://github.com/dylang/node-rss</link><image><url>lib/media/favicon.png</url><title>cp1</title><link/></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Wed, 17 Apr 2024 12:57:34 GMT</lastBuildDate><atom:link href="lib/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 17 Apr 2024 12:57:31 GMT</pubDate><ttl>60</ttl><dc:creator/><item><title><![CDATA[index]]></title><description><![CDATA[ 
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cp1]]></title><description><![CDATA[Obsidian digital garden]]></description><link>http://github.com/dylang/node-rss</link><image><url>lib/media/favicon.png</url><title>cp1</title><link/></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Wed, 17 Apr 2024 18:52:04 GMT</lastBuildDate><atom:link href="lib/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 17 Apr 2024 18:52:03 GMT</pubDate><ttl>60</ttl><dc:creator/><item><title><![CDATA[Problem 2.4]]></title><description><![CDATA[ 
+ <br><br>Canny Edge detection is one of the most useful Edge detection algorithm, which uses linear combination and consists of 5 steps.<br>
+<br>Noise reduction with Gaussian blurring
+<br>Gradient Calculation with with Sobel operators
+<br>Threshold
+<br><br>to reduce noise on the image One can apply Gaussian blur to smooth it. To do so, image convolution technique is applied with Gaussian kernel<br>
+which is given by the following formula for  dimensions.<br><br>application of Gaussian blur<br><img alt="pics/gaus_blurred.png" src="pics/gaus_blurred.png"><br><br>after image is smoothed, the derivatives  and  can we calculated by convolution with Sobel Kernels  and <br><br>then magnitude <br><br>application of Sobel filter<br><img alt="pics/sobelian_shmobelian.png" src="pics/sobelian_shmobelian.png"><br><br>to make image more clear we will use thresholding with some threshold value of 30 pixels as default which can we adjusted based on the input image.<br><img alt="pics/sobel_threshold.png" src="pics/sobel_threshold.png"><br>with this implementation<br>import numpy as np
+import skimage.io as io
+import skimage.color as color
+import matplotlib.pyplot as plt
+from scipy.signal import convolve
+
+
+def convert_to_rgb_format(img):
+    if img.shape[2] == 4:
+        img = color.rgba2rgb(img)
+    return img
+
+
+def convert_to_gray_scale(img):
+    return color.rgb2gray(img)
+
+
+def gaussian_kernel(size, sigma=1):
+    size = int(size) // 2
+    x, y = np.mgrid[-size : size + 1, -size : size + 1]
+    normal = 1 / (2.0 * np.pi * sigma**2)
+    g = np.exp(-((x**2 + y**2) / (2.0 * sigma**2))) * normal
+    return g
+
+
+def gaussian_blur(img):
+    ker = gaussian_kernel(5, sigma=10)
+    return convolve(img, ker, mode="valid")
+
+
+def sobel_filters(img):
+    Kx = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], np.float32)
+    Ky = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]], np.float32)
+
+    Ix = convolve(img, Kx)
+    Iy = convolve(img, Ky)
+
+    G = np.hypot(Ix, Iy)
+    G = G / G.max() * 255
+    theta = np.arctan2(Iy, Ix)
+
+    return G, theta
+
+
+def threshold(img, T=30):
+    cp = np.zeros((img.shape))
+
+    N = img.shape[0]
+    M = img.shape[1]
+
+    for i in range(N):
+        for j in range(M):
+            if img[i, j] &gt;= T:
+                cp[i, j] = 255
+            else:
+                cp[i, j] = 0
+    return cp
+
+
+img = io.imread("./sky.png")
+img = convert_to_rgb_format(img)
+
+gray = convert_to_gray_scale(img)
+
+g_blur = gaussian_blur(gray)
+
+sobel, theta = sobel_filters(g_blur)
+
+thres = threshold(sobel)
+
+
+plt.figure(figsize=(10, 5))
+
+plt.subplot(1, 2, 1)
+plt.imshow(thres, cmap="gray")
+plt.title("Pic 1")
+plt.axis("off")
+
+plt.subplot(1, 2, 2)
+plt.imshow(sobel, cmap="gray")
+plt.title("Pic 2")
+plt.axis("off")
+
+plt.show()
+Copy<br><a data-href="Problem 2.3" href="problem-2.3.html" class="internal-link" target="_self" rel="noopener">Problem 2.3</a><br><br><a data-tooltip-position="top" aria-label="https://vincmazet.github.io/bip/digital-images/intro.html" rel="noopener" class="external-link" href="https://vincmazet.github.io/bip/digital-images/intro.html" target="_blank">Github-article</a><br>
+<a data-tooltip-position="top" aria-label="https://vciba.springeropen.com/articles/10.1186/s42492-019-0016-7#Sec1" rel="noopener" class="external-link" href="https://vciba.springeropen.com/articles/10.1186/s42492-019-0016-7#Sec1" target="_blank">Springer-Image-Denoising</a><br>
+<a data-tooltip-position="top" aria-label="https://www.unioviedo.es/compnum/labs/lab08_optimization1/lab08_optimization1.html" rel="noopener" class="external-link" href="https://www.unioviedo.es/compnum/labs/lab08_optimization1/lab08_optimization1.html" target="_blank">GDM-application</a>]]></description><link>problem-2.4.html</link><guid isPermaLink="false">Problem 2.4.md</guid><pubDate>Wed, 17 Apr 2024 18:51:31 GMT</pubDate><enclosure url="pics/gaus_blurred.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src="pics/gaus_blurred.png"&gt;&lt;/figure&gt;</content:encoded></item><item><title><![CDATA[Problem 2.3]]></title><description><![CDATA[ 
+ <br><br> One of the most useful application would be license plate Detection<br>
+given License plate picture we can perform edge Detection as discussed in previous problem <a data-tooltip-position="top" aria-label="Problem 2.2" data-href="Problem 2.2" href="problem-2.2.html" class="internal-link" target="_self" rel="noopener">Prewitt-Operator</a> with following steps<br>
+<br>transform picture into gray_scale image
+<br>calculate convolution
+<br>apply filter to detect edges
+<br>use threshold to get cleared-view
+<br>this is the following result<br><img src="pics/license.png"><br>
+from which we can extract license plate number much easily. simplest solution would be to print some character(i.e #) whenever we encounter<br>
+value of 1 (which is the highest value in processed image) in the image matrix.<br>
+even with such simple approach we can get pretty good results.<br><img src="pics/extracted.png"><br>with following implementation<br>import numpy as np
+import skimage.io as io
+from skimage.filters import gaussian
+import skimage.color as color
+import matplotlib
+from scipy.signal import convolve
+
+matplotlib.use("TkAgg")
+
+import matplotlib.pyplot as plt
+
+
+def convert_to_rgb_format(img):
+    if img.shape[2] == 4:
+        img = color.rgba2rgb(img)
+    return img
+
+
+def convert_to_gray_scale(img):
+    return color.rgb2gray(img)
+
+
+def threshold(g, T):
+    h, w = g.shape[:2]
+    for j in range(h):
+        for i in range(w):
+            if g[j, i] &gt;= T:
+                g[j, i] = 1
+            else:
+                g[j, i] = 0
+    return g
+
+
+def extract_characters(image, max_print_size=120):
+    m, n = image.shape[:2]
+
+    resolution = min(max_print_size / max(m, n), 1)
+
+    step_size = int(1 / resolution)
+
+    for i in range(0, m, step_size):
+        for j in range(0, n, step_size):
+            if np.any(image[i : i + step_size, j : j + step_size] == 1):
+                print("#", end="")
+            else:
+                print(" ", end="")
+        print()
+
+
+def prewitt_operator(g):
+    h_x = np.array([[1, 0, -1], [1, 0, -1], [1, 0, -1]])
+    h_y = np.array([[1, 1, 1], [0, 0, 0], [-1, -1, -1]])
+
+    grad_x = convolve(g, h_x, mode="same")
+    grad_y = convolve(g, h_y, mode="same")
+
+    M = np.sqrt(grad_x**2 + grad_y**2)  # NOTE: magnitude M
+
+    A = np.arctan(grad_y / grad_x)  # NOTE: angle A
+
+    return M, A
+
+
+img = io.imread("./plate.png")
+
+#NOTE: to test gaussing blur
+# _img = gaussian(img, sigma=5)
+
+img = convert_to_rgb_format(img)
+
+g = convert_to_gray_scale(img)
+
+M, A = prewitt_operator(g)
+
+M_th = threshold(M, 0.5)
+
+extract_characters(M_th)
+
+
+plt.figure(figsize=(10, 5))
+
+plt.subplot(1, 2, 1)
+plt.imshow(img)
+plt.title("Original Image")
+
+plt.subplot(1, 2, 2)
+plt.imshow(M_th, cmap="gray")
+plt.title("Prewitt Operator with magnitude M")
+plt.show()
+Copy<br><br>the drawback of this method is that it is sensitive to image noising. this is the illustration of the same image with Gaussian blurr<br>
+with  <br><img alt="pics/gaussian.png" src="pics/gaussian.png"><br>Another application of Derivatives is Image Denoising with Gradient-Descent (GDM)<br>for typical GDM method would be to minimize some objective function<br>
+with iteration  but in image Denoising instead of minimizing sequence of  we look for minimizing sequence of images  for functional   where V is space of images (space of smooth functions)<br>We consider functional  which are the addition of two terms, . The first term is the fidelity term which forces the final image to be not too far away from the initial image.<br>
+The second term is the regularizing term, which performs actually the noise reduction.<br>
+A typical choice of the fidelity term is the convex functional<br><br>where  denotes set of pixels and  is the initial image.<br>For the regularizing term, we start with the simplest choice (also convex)<br><br>Then the problem is: find a minimum  of  solving<br><br> to control rate fidelity-regularization.<br>For using the gradient descent method we need to compute the gradient of . The result is<br><br>Then, the gradient descent algorithm gives<br><br>this is the illustration of application of GDM on picture.<br><img src="pics/combined.png"><br> <a data-href="Problem 2.2" href="problem-2.2.html" class="internal-link" target="_self" rel="noopener">Problem 2.2</a>                                              <a data-href="Problem 2.4" href="problem-2.4.html" class="internal-link" target="_self" rel="noopener">Problem 2.4</a>]]></description><link>problem-2.3.html</link><guid isPermaLink="false">Problem 2.3.md</guid><pubDate>Wed, 17 Apr 2024 17:28:44 GMT</pubDate><enclosure url="pics/license.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src="pics/license.png"&gt;&lt;/figure&gt;</content:encoded></item><item><title><![CDATA[index]]></title><description><![CDATA[ 
  <br><br><br>Edges are characterized by a rapid variation in the intensity of the pixels. Fig.1 represents the brightness profile along a horizontal blue line in image, which clearly shows a sudden decrease in the brightness of the pixels.<br><img alt="pics/edge_intensity.png" src="pics/edge_intensity.png"><br>with following implementation<br>import skimage.io as io
 import skimage.color as color
 import matplotlib
@@ -299,112 +494,4 @@ plt.subplot(1, 2, 2)
 plt.imshow(threshold(M, 0.5), cmap="gray")
 plt.title("Prewitt Operator with magnitude M")
 plt.show()
-Copy<br><a data-tooltip-position="top" aria-label="index" data-href="index" href="index.html" class="internal-link" target="_self" rel="noopener">Problem 2.1</a>                                                 <a data-href="Problem 2.3" href="problem-2.3.html" class="internal-link" target="_self" rel="noopener">Problem 2.3</a>]]></description><link>problem-2.2.html</link><guid isPermaLink="false">Problem 2.2.md</guid><pubDate>Wed, 17 Apr 2024 11:52:02 GMT</pubDate><enclosure url="pics/edging.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src="pics/edging.png"&gt;&lt;/figure&gt;</content:encoded></item><item><title><![CDATA[Problem 2.4]]></title><description><![CDATA[ 
- <br><br>Canny Edge detection is one of the most useful Edge detection algorithm, which uses linear combination and consists of 5 steps.<br>
-<br>Noise reduction
-<br>Gradient Calculation
-<br>Non-maximum suppression
-<br>Double threshold
-<br>Edge tracking by Hysteresis
-<br><br>to reduce noise on the image One can apply Gaussian blur to smooth it. To do so, image convolution technique is applied with Gaussian kernel<br>
-which is given by the following formula for  dimensions.<br><br><br><br><br><br><a data-href="Problem 2.3" href="problem-2.3.html" class="internal-link" target="_self" rel="noopener">Problem 2.3</a><br><br><a data-tooltip-position="top" aria-label="https://vincmazet.github.io/bip/digital-images/intro.html" rel="noopener" class="external-link" href="https://vincmazet.github.io/bip/digital-images/intro.html" target="_blank">Github-article</a><br>
-<a data-tooltip-position="top" aria-label="https://vciba.springeropen.com/articles/10.1186/s42492-019-0016-7#Sec1" rel="noopener" class="external-link" href="https://vciba.springeropen.com/articles/10.1186/s42492-019-0016-7#Sec1" target="_blank">Springer-Image-Denoising</a><br>
-<a data-tooltip-position="top" aria-label="https://www.unioviedo.es/compnum/labs/lab08_optimization1/lab08_optimization1.html" rel="noopener" class="external-link" href="https://www.unioviedo.es/compnum/labs/lab08_optimization1/lab08_optimization1.html" target="_blank">GDM-application</a>]]></description><link>problem-2.4.html</link><guid isPermaLink="false">Problem 2.4.md</guid><pubDate>Tue, 16 Apr 2024 17:25:03 GMT</pubDate></item><item><title><![CDATA[Problem 2.3]]></title><description><![CDATA[ 
- <br><br> One of the most useful application would be license plate Detection<br>
-given License plate picture we can perform edge Detection as discussed in previous problem <a data-tooltip-position="top" aria-label="Problem 2.2" data-href="Problem 2.2" href="problem-2.2.html" class="internal-link" target="_self" rel="noopener">Prewitt-Operator</a> with following steps<br>
-<br>transform picture into gray_scale image
-<br>calculate convolution
-<br>apply filter to detect edges
-<br>use threshold to get cleared-view
-<br>this is the following result<br><img src="pics/license.png"><br>
-from which we can extract license plate number much easily. simplest solution would be to print some character(i.e #) whenever we encounter<br>
-value of 1 (which is the highest value in processed image) in the image matrix.<br>
-even with such simple approach we can get pretty good results.<br><img src="pics/extracted.png"><br>with following implementation<br>import numpy as np
-import skimage.io as io
-import skimage.color as color
-import matplotlib
-from scipy.signal import convolve
-
-matplotlib.use("TkAgg")
-
-import matplotlib.pyplot as plt
-
-
-def convert_to_rgb_format(img):
-    if img.shape[2] == 4:
-        img = color.rgba2rgb(img)
-    return img
-
-
-def convert_to_gray_scale(img):
-    return color.rgb2gray(img)
-
-
-def threshold(g, T):
-    h, w = g.shape[:2]
-    for j in range(h):
-        for i in range(w):
-            if g[j, i] &gt;= T:
-                g[j, i] = 1
-            else:
-                g[j, i] = 0
-    return g
-
-
-def extract_characters(image, max_print_size=120):
-    m, n = image.shape[:2]
-
-    resolution = min(max_print_size / max(m, n), 1)
-
-    step_size = int(1 / resolution)
-
-    for i in range(0, m, step_size):
-        for j in range(0, n, step_size):
-            if np.any(image[i : i + step_size, j : j + step_size] == 1):
-                print("#", end="")
-            else:
-                print(" ", end="")
-        print()
-
-
-def prewitt_operator(g):
-    h_x = np.array([[1, 0, -1], [1, 0, -1], [1, 0, -1]])
-    h_y = np.array([[1, 1, 1], [0, 0, 0], [-1, -1, -1]])
-
-    grad_x = convolve(g, h_x, mode="same")
-    grad_y = convolve(g, h_y, mode="same")
-
-    M = np.sqrt(grad_x**2 + grad_y**2)  # NOTE: magnitude M
-
-    A = np.arctan(grad_y / grad_x)  # NOTE: angle A
-
-    return M, A
-
-
-img = io.imread("./plate.png")
-
-img = convert_to_rgb_format(img)
-
-g = convert_to_gray_scale(img)
-
-M, A = prewitt_operator(g)
-
-M_th = threshold(M, 0.5)
-
-extract_characters(M_th)
-
-
-plt.figure(figsize=(10, 5))
-
-plt.subplot(1, 2, 1)
-plt.imshow(img)
-plt.title("Original Image")
-
-plt.subplot(1, 2, 2)
-plt.imshow(M_th, cmap="gray")
-plt.title("Prewitt Operator with magnitude M")
-plt.show()
-Copy<br>Another application of Derivatives is Image Denoising with Gradient-Descent (GDM)<br>for typical GDM method would be to minimize some objective function<br>
-with iteration  but in image Denoising instead of minimizing sequence of  we look for minimizing sequence of images  for functional   where V is space of images (space of smooth functions)<br>We consider functional  which are the addition of two terms, . The first term is the fidelity term which forces the final image to be not too far away from the initial image.<br>
-The second term is the regularizing term, which performs actually the noise reduction.<br>
-A typical choice of the fidelity term is the convex functional<br><br>where  denotes set of pixels and  is the initial image.<br>For the regularizing term, we start with the simplest choice (also convex)<br><br>Then the problem is: find a minimum  of  solving<br><br> to control rate fidelity-regularization.<br>For using the gradient descent method we need to compute the gradient of . The result is<br><br>Then, the gradient descent algorithm gives<br><br>this is the illustration of application of GDM on picture.<br><img src="pics/combined.png"><br> <a data-href="Problem 2.2" href="problem-2.2.html" class="internal-link" target="_self" rel="noopener">Problem 2.2</a>                                              <a data-href="Problem 2.4" href="problem-2.4.html" class="internal-link" target="_self" rel="noopener">Problem 2.4</a>]]></description><link>problem-2.3.html</link><guid isPermaLink="false">Problem 2.3.md</guid><pubDate>Sun, 14 Apr 2024 18:14:33 GMT</pubDate><enclosure url="pics/license.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src="pics/license.png"&gt;&lt;/figure&gt;</content:encoded></item></channel></rss>
+Copy<br><a data-tooltip-position="top" aria-label="index" data-href="index" href="index.html" class="internal-link" target="_self" rel="noopener">Problem 2.1</a>                                                 <a data-href="Problem 2.3" href="problem-2.3.html" class="internal-link" target="_self" rel="noopener">Problem 2.3</a>]]></description><link>problem-2.2.html</link><guid isPermaLink="false">Problem 2.2.md</guid><pubDate>Wed, 17 Apr 2024 11:52:02 GMT</pubDate><enclosure url="pics/edging.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src="pics/edging.png"&gt;&lt;/figure&gt;</content:encoded></item></channel></rss>
