@@ -1,4 +1,4 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cp1]]></title><description><![CDATA[Obsidian digital garden]]></description><link>http://github.com/dylang/node-rss</link><image><url>lib/media/favicon.png</url><title>cp1</title><link/></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Fri, 26 Apr 2024 18:02:33 GMT</lastBuildDate><atom:link href="lib/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Fri, 26 Apr 2024 18:02:30 GMT</pubDate><ttl>60</ttl><dc:creator/><item><title><![CDATA[Problem 2.2]]></title><description><![CDATA[ 
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cp1]]></title><description><![CDATA[Obsidian digital garden]]></description><link>http://github.com/dylang/node-rss</link><image><url>lib/media/favicon.png</url><title>cp1</title><link/></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Fri, 26 Apr 2024 18:09:30 GMT</lastBuildDate><atom:link href="lib/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Fri, 26 Apr 2024 18:09:28 GMT</pubDate><ttl>60</ttl><dc:creator/><item><title><![CDATA[Problem 2.2]]></title><description><![CDATA[ 
  <br><br>to investigate higher order derivatives we can use  Prewitt operators and compute convolution.<br>
 for first order derivative it has following form<br><br>with kernel<br><br>and similar idea is applied to higher order derivatives with kernels<br><br>First calculate vertical and horizontal Prewitt operators by convolution which will give us approximation of partial derivatives<br>
 <br> and then calculate magnitude M which is "fusion" of both operators to get the final result<br> <br> and to get even more clear image we can use Thresholding to get following result<br><img src="pics/edging.png"><br><br>we can even get additional information by calculating angle of the edge.<br>
@@ -57,6 +57,8 @@ g = convert_to_gray_scale(img)
 
 M, A = prewitt_operator(g)
 
+# M, A = prewitt_operator(M)
+
 plt.figure(figsize=(10, 5))
 
 plt.subplot(1, 2, 1)
@@ -67,7 +69,7 @@ plt.subplot(1, 2, 2)
 plt.imshow(threshold(M, 0.5), cmap="gray")
 plt.title("Prewitt Operator with magnitude M")
 plt.show()
-Copy<br><a data-tooltip-position="top" aria-label="index" data-href="index" href="index.html" class="internal-link" target="_self" rel="noopener">Problem 2.1</a>                                                 <a data-href="Problem 2.3" href="problem-2.3.html" class="internal-link" target="_self" rel="noopener">Problem 2.3</a>]]></description><link>problem-2.2.html</link><guid isPermaLink="false">Problem 2.2.md</guid><pubDate>Fri, 26 Apr 2024 17:58:36 GMT</pubDate><enclosure url="pics/edging.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src="pics/edging.png"&gt;&lt;/figure&gt;</content:encoded></item><item><title><![CDATA[index]]></title><description><![CDATA[ 
+Copy<br><a data-tooltip-position="top" aria-label="index" data-href="index" href="index.html" class="internal-link" target="_self" rel="noopener">Problem 2.1</a>                                                 <a data-href="Problem 2.3" href="problem-2.3.html" class="internal-link" target="_self" rel="noopener">Problem 2.3</a>]]></description><link>problem-2.2.html</link><guid isPermaLink="false">Problem 2.2.md</guid><pubDate>Fri, 26 Apr 2024 18:09:03 GMT</pubDate><enclosure url="pics/edging.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src="pics/edging.png"&gt;&lt;/figure&gt;</content:encoded></item><item><title><![CDATA[index]]></title><description><![CDATA[ 
  <br><br><br>Edges are characterized by a rapid variation in the intensity of the pixels. Fig.1 represents the brightness profile along a horizontal blue line in image, which clearly shows a sudden decrease in the brightness of the pixels.<br><img alt="pics/edge_intensity.png" src="pics/edge_intensity.png"><br>with following implementation<br>import skimage.io as io
 import skimage.color as color
 import matplotlib
